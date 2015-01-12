@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# $Id: git-svn-diff,v 1.5 2012/11/13 02:24:30 cuibaoqiu Exp $
+#
+# git-svn-diff originally by (http://mojodna.net/2009/02/24/my-work-git-workflow.html)
+# modified by mike@mikepearce.net
+# modified by aconway@[redacted] - handle diffs that introduce new files
+# modified by t.broyer@ltgt.net - fixes diffs that introduce new files
+# modified by m@rkj.me - fix sed syntax issue in OS X
+# modified by cbaoqiu@yahoo.com - fixes a bug in new file handling, 
+#                                 and supports new binary files
+# modified by cbaoqiu@yahoo.com - fixes two more sed syntax issues on Mac OS.
+#
+# Generate an SVN-compatible diff against the tip of the tracking branch
+
+# Get the tracking branch (if we're on a branch)
+TRACKING_BRANCH=`git svn info | grep URL | sed -e 's/.*\/branches\///'`
+
+# If the tracking branch has 'URL' at the beginning, then the sed wasn't successful and
+# we'll fall back to the svn-remote config option
+if [[ "$TRACKING_BRANCH" =~ URL.* ]]
+then
+        TRACKING_BRANCH=`git config --get svn-remote.svn.fetch | sed -e 's/.*:refs\/remotes\///'`
+fi
+
+# Get the highest revision number
+REV=`git svn find-rev $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH)`
+
+# Then do the diff from the highest revision on the current branch 
+# and masssage into SVN format
+git diff --no-prefix $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH) $* |
+sed -e "/--- \/dev\/null/{ N
+s|^--- /dev/null\n+++ \(.*\)|--- \1	(revision 0)\\
++++ \1	(revision 0)|
+ }" \
+    -e "s/^--- [^ ]*$/&	(revision $REV)/" \
+    -e "s/^+++ [^ ]*$/&	(working copy)/" \
+    -e "s/^diff --git [^[:space:]]*/Index:/" \
+    -e "s/^index.*/===================================================================/" \
+    -e "/^new file mode [0-9]*$/d" \
+    -e "s/Binary files \/dev\/null and \(.*\) differ/--- \1	(revision 0)\\
++++ \1	(revision 0)/"
