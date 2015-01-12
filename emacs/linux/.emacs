@@ -1,8 +1,16 @@
 ;;Key
-(global-set-key "\C-t" 'set-mark-command)
-(global-set-key "\C-o" 'other-window)
 (global-set-key "\C-x\C-m" 'execute-extended-command)
 (global-set-key "\C-c\C-m" 'execute-extended-command)
+
+(global-set-key "\C-c\C-b" 'list-buffers)
+
+(global-set-key "\C-t" 'set-mark-command)
+(global-set-key "\C-o" 'other-window)
+(global-set-key "\C-j" 'switch-to-buffer)
+
+(global-set-key [(control \1)] 'delete-other-windows)
+(global-set-key [(control \2)] 'split-window-below)
+(global-set-key [(control \3)] 'split-window-right)
 
 ;;Start up
 (setq resize-mini-windows nil)
