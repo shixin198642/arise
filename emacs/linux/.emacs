@@ -23,3 +23,6 @@
 
 (add-to-list 'load-path "/home/shixin/emacs/lisps/emacs-color-theme-6.6.0")
 (require 'color-theme)
+(color-theme-initialize)
+(color-theme-comidia)
+
