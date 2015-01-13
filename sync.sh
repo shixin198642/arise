@@ -4,7 +4,7 @@ CWD=`pwd`
 
 UNAME=`uname -a`
 UBUNTU=`echo $UNAME | grep Ubuntu`
-MAC=`echo $UNAME | grep MacBook`
+MAC=`echo $UNAME | grep maxmac`
 
 if [ -n "$UBUNTU" ]; then
     echo "This is ubuntu system."
