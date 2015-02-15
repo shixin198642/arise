@@ -1,13 +1,13 @@
 #!/bin/bash
 
 CWD=`pwd`
-
 UNAME=`uname -a`
-UBUNTU=`echo $UNAME | grep Ubuntu`
+
+Linux=`echo $UNAME | grep Linux`
 MAC=`echo $UNAME | grep maxmac`
 
-if [ -n "$UBUNTU" ]; then
-    echo "This is ubuntu system."
+if [ -n "$Linux" ]; then
+    echo "This is Linux system."
 
     echo "Start to sync emacs..."
     EMACS_MAC_HOME=$CWD/emacs/linux
