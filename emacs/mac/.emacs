@@ -17,10 +17,10 @@
 (setq resize-mini-windows nil)
 (setq make-backup-files nil)
 (setq-default cursor-type 'bar)
-(set-default-font "Monaco-12")
+(set-default-font "Monaco-13")
 
 (global-linum-mode t) ;; Show line number
-(hl-line-mode t) ;; Highlight current line
+;;(hl-line-mode t) ;; Highlight current line
 
 (add-to-list 'load-path "/Users/ishikin/emacs/lisps/emacs-color-theme-6.6.0")
 (require 'color-theme)
